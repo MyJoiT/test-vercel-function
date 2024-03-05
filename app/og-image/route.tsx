@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
   const fontData = await fontResponse.arrayBuffer();
 
   const svg = await satori(
-    content, 
+    <h1>Dynamic Content to image</h1>, 
     {
       width: 1200,
       height: 628,

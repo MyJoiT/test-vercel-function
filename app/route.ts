@@ -32,7 +32,7 @@ const resultHtml = (host: string, castHash: string) => `
     <html>
       <head>
         <meta property="fc:frame" content="vNext" />
-        <meta property="fc:frame:image" content="${ host }/og-image?castHash?=${ castHash }" />
+        <meta property="fc:frame:image" content="${ host }/og-image?castHash=${ castHash }" />
         <meta property="fc:frame:button:1" content="Return" />
         <meta property="fc:frame:post_url" content="${ host }?frame=default" />
       </head>

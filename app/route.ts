@@ -8,8 +8,10 @@ const defaultHtml = (host: string) => `
       <head>
         <meta property="fc:frame" content="vNext" />
         <meta property="fc:frame:image" content="${ host }/bg.jpg" />
-        <meta property="fc:frame:button:1" content="View Result" />
         <meta property="fc:frame:post_url" content="${ host }?frame=result" />
+        <meta property="fc:frame:button:1" content="View Result" />
+        <meta property="fc:frame:button:2" content="Go to Profile" />
+        <meta property="fc:frame:button:2:post_redirect" content="https://warpcast.com/joit" />
       </head>
 
       <body>

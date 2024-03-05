@@ -4,19 +4,37 @@ import sharp from "sharp";
 import { html } from "satori-html";
 
 export async function GET(request: NextRequest) {
-  const content = `
-  <!DOCTYPE>
-  <html>
-    <body>
-      <h1>Dynamic Content to image</h1>
-    </body>
-  </html>
+  const host = request.nextUrl.origin
+
+  const content = html`
+    <!DOCTYPE html>
+    <html>
+      <body>
+        <h1>Dynamic Content to image</h1>
+      </body>
+    </html>
   `
+
+  const font = {
+      fileName: 'Redaction-Regular.otf',
+      cssName: 'Redaction'
+  };
+  const fontResponse = await fetch(`${ host }/fonts/${font.fileName}`);
+  const fontData = await fontResponse.arrayBuffer();
+
   const svg = await satori(
-    html(content), 
+    content, 
     {
       width: 1200,
       height: 628,
+      fonts:[
+        {
+          name: font.cssName,
+          data: fontData,
+          weight: 400,
+          style: "normal",
+        }
+      ]
     }
   );
   const svgBuffer = Buffer.from(svg);

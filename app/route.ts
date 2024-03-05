@@ -12,14 +12,14 @@ const defaultHtml = (host: string) => `
         <meta property="fc:frame:post_url" content="${ host }?frame=result" />
       </head>
 
-      <!--
       <body>
+      <!--
         <h1>Test Frame from vercel Function</h1>
         <figure>
           <img width="600" src="${ host }/bg.jpg" />
         </figure>
-      </body>
       -->
+      </body>
     </html>
   `
 
@@ -33,10 +33,8 @@ const resultHtml = (host: string) => `
         <meta property="fc:frame:post_url" content="${ host }?frame=default" />
       </head>
 
-      <!--
       <body>
       </body>
-      -->
     </html>
   `
 

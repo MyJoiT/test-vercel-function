@@ -56,8 +56,9 @@ export function GET(request: NextRequest) {
   );
 }
 
-export function POST(request: NextRequest) {
-  console.log('request.json(): ', request.json())
+export async function POST(request: NextRequest) {
+  const body = await new Response(request.body).json();
+  console.log('body is: ', body)
 
   let html = null
 

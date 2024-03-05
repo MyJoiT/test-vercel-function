@@ -58,7 +58,7 @@ export function POST(request: NextRequest) {
   let html = null
 
   const searchParams = request.nextUrl.searchParams
-  if(searchParams && searchParams['frame'] === 'result') {
+  if(searchParams && searchParams.get('frame') === 'result') {
     html = resultHtml(request.nextUrl.origin)
   } else {
     html = defaultHtml(request.nextUrl.origin)

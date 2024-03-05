@@ -57,6 +57,8 @@ export function GET(request: NextRequest) {
 }
 
 export function POST(request: NextRequest) {
+  console.log('request.json(): ', request.json())
+
   let html = null
 
   const searchParams = request.nextUrl.searchParams

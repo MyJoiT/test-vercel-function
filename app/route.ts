@@ -13,12 +13,10 @@ const defaultHtml = (host: string) => `
       </head>
 
       <body>
-      <!--
         <h1>Test Frame from vercel Function</h1>
         <figure>
           <img width="600" src="${ host }/bg.jpg" />
         </figure>
-      -->
       </body>
     </html>
   `

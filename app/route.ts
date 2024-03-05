@@ -27,12 +27,12 @@ const defaultHtml = (host: string) => `
     </html>
   `
 
-const resultHtml = (host: string) => `
+const resultHtml = (host: string, castHash: string) => `
     <!DOCTYPE>
     <html>
       <head>
         <meta property="fc:frame" content="vNext" />
-        <meta property="fc:frame:image" content="${ host }/bg1.jpg" />
+        <meta property="fc:frame:image" content="${ host }/og-image?castHash?=${ castHash }" />
         <meta property="fc:frame:button:1" content="Return" />
         <meta property="fc:frame:post_url" content="${ host }?frame=default" />
       </head>
@@ -42,7 +42,24 @@ const resultHtml = (host: string) => `
     </html>
   `
 
-export function GET(request: NextRequest) {
+const getValidateMessage = async (messageBytes: string) => {
+  const binaryData =  new Uint8Array(
+    messageBytes.match(/.{1,2}/g)!.map(
+      (byte) => parseInt(byte, 16)
+    )
+  )
+
+  const response = await fetch(
+    "https://nemes.farcaster.xyz:2281/v1/validateMessage", {
+    method: "POST",
+    headers: {"Content-Type": "application/octet-stream"},
+    body: binaryData
+  }).then(r => r.json())
+
+  return response
+}
+
+export async function GET(request: NextRequest) {
   const html = defaultHtml(request.nextUrl.origin)
 
   return new Response(
@@ -58,13 +75,15 @@ export function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   const body = await new Response(request.body).json();
-  console.log('body is: ', body)
+
+  const data = await getValidateMessage(body.trustedData.messageBytes)
+  const castHash = data.message.data.frameActionBody.castId.hash
 
   let html = null
 
   const searchParams = request.nextUrl.searchParams
   if(searchParams && searchParams.get('frame') === 'result') {
-    html = resultHtml(request.nextUrl.origin)
+    html = resultHtml(request.nextUrl.origin, castHash)
   } else {
     html = defaultHtml(request.nextUrl.origin)
   }

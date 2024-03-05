@@ -5,12 +5,14 @@ import { html } from "satori-html";
 
 export async function GET(request: NextRequest) {
   const host = request.nextUrl.origin
+  const searchParams = request.nextUrl.searchParams
 
   const content = html`
     <!DOCTYPE html>
     <html>
       <body>
         <h1>Dynamic Content to image</h1>
+        <h2>${ searchParams.get('castHash') }</h2>
       </body>
     </html>
   `

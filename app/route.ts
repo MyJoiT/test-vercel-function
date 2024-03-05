@@ -13,6 +13,9 @@ const defaultHtml = (host: string) => `
         <meta property="fc:frame:button:2" content="Go to Profile" />
         <meta property="fc:frame:button:2:action" content="post_redirect" />
         <meta property="fc:frame:button:2:target" content="${ host }/redirect" />
+        <meta property="fc:frame:button:3" content="Learn Farcaster" />
+        <meta property="fc:frame:button:3:action" content="link" />
+        <meta property="fc:frame:button:3:target" content="https://www.farcaster.xyz/" />
       </head>
 
       <body>

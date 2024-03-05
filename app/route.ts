@@ -41,7 +41,7 @@ const resultHtml = (host: string) => `
   `
 
 export function GET(request: NextRequest) {
-  const html = defaultHtml(request.nextUrl.host)
+  const html = defaultHtml(request.nextUrl.origin)
 
   return new Response(
     html,

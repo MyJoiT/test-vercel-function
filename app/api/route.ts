@@ -11,10 +11,12 @@ export function GET(request: NextRequest) {
         <meta property="fc:frame:image" content="${ request.nextUrl.origin }/bg.jpg" />
       </head>
       <body>
+        <!--
         <h1>Test Frame from vercel Function</h1>
-          <figure>
-            <img width="600" src="${ request.nextUrl.origin }/bg.jpg" />
-          </figure>
+        <figure>
+          <img width="600" src="${ request.nextUrl.origin }/bg.jpg" />
+        </figure>
+        -->
       </body>
     </html>
   ` 

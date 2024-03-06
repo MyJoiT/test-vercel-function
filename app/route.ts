@@ -35,6 +35,7 @@ const resultHtml = (host: string, username: string) => `
         <meta property="fc:frame:image" content="${ host }/og-image?username=${ username }&t=${ new Date().valueOf() }" />
         <meta property="fc:frame:button:1" content="Return" />
         <meta property="fc:frame:post_url" content="${ host }?frame=default" />
+        <meta property="fc:frame:state" content="default ${ new Date().valueOf() }" />
       </head>
 
       <body>
@@ -84,6 +85,8 @@ export async function POST(request: NextRequest) {
   const body = await new Response(request.body).json();
 
   console.log('body is: ', body)
+
+  console.log('untrustedData is: ', body.untrustedData)
 
   const data = await getValidateMessage(body.trustedData.messageBytes)
 

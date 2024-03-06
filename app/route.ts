@@ -8,12 +8,13 @@ const defaultHtml = (host: string) => `
       <head>
         <meta property="fc:frame" content="vNext" />
         <meta property="fc:frame:image" content="${ host }/bg.jpg" />
+        <meta property="fc:frame:input:text" content="What is happening?" />
         <meta property="fc:frame:post_url" content="${ host }?frame=result" />
         <meta property="fc:frame:button:1" content="View Result" />
-        <meta property="fc:frame:button:2" content="Go to Profile" />
+        <meta property="fc:frame:button:2" content="Author" />
         <meta property="fc:frame:button:2:action" content="post_redirect" />
         <meta property="fc:frame:button:2:target" content="${ host }/redirect" />
-        <meta property="fc:frame:button:3" content="Learn Farcaster" />
+        <meta property="fc:frame:button:3" content="FC Doc" />
         <meta property="fc:frame:button:3:action" content="link" />
         <meta property="fc:frame:button:3:target" content="https://www.farcaster.xyz/" />
         <meta property="fc:frame:button:4" content="Mint" />
@@ -30,12 +31,12 @@ const defaultHtml = (host: string) => `
     </html>
   `
 
-const resultHtml = (host: string, username: string) => `
+const resultHtml = (host: string, username: string, message: string) => `
     <!DOCTYPE>
     <html>
       <head>
         <meta property="fc:frame" content="vNext" />
-        <meta property="fc:frame:image" content="${ host }/og-image?username=${ username }&t=${ new Date().valueOf() }" />
+        <meta property="fc:frame:image" content="${ host }/og-image?username=${ username }&message=${ message }&t=${ new Date().valueOf() }" />
         <meta property="fc:frame:button:1" content="Return" />
         <meta property="fc:frame:post_url" content="${ host }?frame=default" />
         <meta property="fc:frame:state" content="default ${ new Date().valueOf() }" />
@@ -87,13 +88,16 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const body = await new Response(request.body).json();
 
-  console.log('body is: ', body)
+  console.log('full data is: ', body)
 
   console.log('untrustedData is: ', body.untrustedData)
 
+  const originMessage = body.untrustedData.inputText
+  const encodeMessage = Buffer.from(originMessage, 'binary').toString('base64');
+
   const data = await getValidateMessage(body.trustedData.messageBytes)
 
-  console.log('data is: ', data)
+  console.log('trustedData is: ', data)
 
   const fid = data.message.data.fid
 
@@ -107,7 +111,7 @@ export async function POST(request: NextRequest) {
 
   const searchParams = request.nextUrl.searchParams
   if(searchParams && searchParams.get('frame') === 'result') {
-    html = resultHtml(request.nextUrl.origin, userDataBody.value)
+    html = resultHtml(request.nextUrl.origin, userDataBody.value, encodeMessage)
   } else {
     html = defaultHtml(request.nextUrl.origin)
   }

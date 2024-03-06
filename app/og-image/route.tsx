@@ -5,6 +5,10 @@ import sharp from "sharp";
 export async function GET(request: NextRequest) {
   const host = request.nextUrl.origin
   const searchParams = request.nextUrl.searchParams
+
+  const encodeMessage = searchParams.get('message') ?? ''
+  const originMessage = Buffer.from(encodeMessage, 'base64').toString('binary');
+
   let username: string | null = 'Empty' 
 
   if(searchParams && searchParams.get('username')) {
@@ -34,7 +38,8 @@ export async function GET(request: NextRequest) {
       color: 'white',
     }}>
       <h1>Dynamic</h1>
-      <h2>Hello { username }</h2>
+      <h1>Hello { username }</h1>
+      <h1>{ originMessage }</h1>
     </div>
     ,
     {

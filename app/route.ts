@@ -93,7 +93,10 @@ export async function POST(request: NextRequest) {
   console.log('untrustedData is: ', body.untrustedData)
 
   const originMessage = body.untrustedData.inputText
-  const encodeMessage = Buffer.from(originMessage, 'binary').toString('base64');
+  let encodeMessage = ''
+  if(originMessage) {
+    encodeMessage = Buffer.from(originMessage, 'binary').toString('base64');
+  }
 
   const data = await getValidateMessage(body.trustedData.messageBytes)
 

@@ -16,6 +16,9 @@ const defaultHtml = (host: string) => `
         <meta property="fc:frame:button:3" content="Learn Farcaster" />
         <meta property="fc:frame:button:3:action" content="link" />
         <meta property="fc:frame:button:3:target" content="https://www.farcaster.xyz/" />
+        <meta property="fc:frame:button:4" content="Mint" />
+        <meta property="fc:frame:button:4:action" content="mint" />
+        <meta property="fc:frame:button:4:target" content="eip155:7777777:0x060f3edd18c47f59bd23d063bbeb9aa4a8fec6df">
       </head>
 
       <body>

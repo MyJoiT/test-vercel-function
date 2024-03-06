@@ -27,12 +27,12 @@ const defaultHtml = (host: string) => `
     </html>
   `
 
-const resultHtml = (host: string, castHash: string) => `
+const resultHtml = (host: string, username: string) => `
     <!DOCTYPE>
     <html>
       <head>
         <meta property="fc:frame" content="vNext" />
-        <meta property="fc:frame:image" content="${ host }/og-image?castHash=${ castHash }" />
+        <meta property="fc:frame:image" content="${ host }/og-image?username=${ username }&t=${ new Date().valueOf() }" />
         <meta property="fc:frame:button:1" content="Return" />
         <meta property="fc:frame:post_url" content="${ host }?frame=default" />
       </head>
@@ -50,13 +50,20 @@ const getValidateMessage = async (messageBytes: string) => {
   )
 
   const response = await fetch(
-    "https://nemes.farcaster.xyz:2281/v1/validateMessage", {
-    method: "POST",
-    headers: {"Content-Type": "application/octet-stream"},
-    body: binaryData
-  }).then(r => r.json())
+    "https://nemes.farcaster.xyz:2281/v1/validateMessage",
+    {
+      method: "POST",
+      headers: {"Content-Type": "application/octet-stream"},
+      body: binaryData
+    }
+  )
 
-  return response
+  return response.json()
+}
+
+const getUsernameByFid = async (fid: number) => {
+  const response = await fetch(`https://nemes.farcaster.xyz:2281/v1/userDataByFid?fid=${ fid }&user_data_type=6`)
+  return response.json()
 }
 
 export async function GET(request: NextRequest) {
@@ -77,13 +84,17 @@ export async function POST(request: NextRequest) {
   const body = await new Response(request.body).json();
 
   const data = await getValidateMessage(body.trustedData.messageBytes)
-  const castHash = data.message.data.frameActionBody.castId.hash
+  const fid = data.message.data.frameActionBody.fid
+
+  const { userDataBody } = (await getUsernameByFid(fid)).data
+
+  console.log('userDataBody is: ', userDataBody, userDataBody.value)
 
   let html = null
 
   const searchParams = request.nextUrl.searchParams
   if(searchParams && searchParams.get('frame') === 'result') {
-    html = resultHtml(request.nextUrl.origin, castHash)
+    html = resultHtml(request.nextUrl.origin, userDataBody.value)
   } else {
     html = defaultHtml(request.nextUrl.origin)
   }

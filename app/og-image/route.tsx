@@ -1,21 +1,15 @@
 import { NextRequest } from 'next/server';
 import satori from "satori";
 import sharp from "sharp";
-import { html } from "satori-html";
 
 export async function GET(request: NextRequest) {
   const host = request.nextUrl.origin
   const searchParams = request.nextUrl.searchParams
+  let username: string | null = 'Empty' 
 
-  const content = html`
-    <!DOCTYPE html>
-    <html>
-      <body>
-        <h1>Dynamic Content to image</h1>
-        <h2>${ searchParams.get('castHash') }</h2>
-      </body>
-    </html>
-  `
+  if(searchParams && searchParams.get('username')) {
+      username = searchParams.get('username')
+  }
 
   const font = {
       fileName: 'Redaction-Regular.otf',
@@ -25,7 +19,24 @@ export async function GET(request: NextRequest) {
   const fontData = await fontResponse.arrayBuffer();
 
   const svg = await satori(
-    <h1>Dynamic Content to image</h1>, 
+    <div style={{
+      width: '1200px',
+      height: '628px',
+      display: 'flex',
+      textAlign: 'center',
+      alignItems: 'center',
+      justifyContent: 'center',
+      flexDirection: 'column',
+      flexWrap: 'nowrap',
+      backgroundImage: `url(${ host }/bg1.jpg)`,
+      backgroundSize: '100% 100%',
+      backgroundRepeat: 'no-repeat',
+      color: 'white',
+    }}>
+      <h1>Dynamic</h1>
+      <h2>Hello { username }</h2>
+    </div>
+    ,
     {
       width: 1200,
       height: 628,

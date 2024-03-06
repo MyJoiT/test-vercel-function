@@ -83,7 +83,12 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const body = await new Response(request.body).json();
 
+  console.log('body is: ', body)
+
   const data = await getValidateMessage(body.trustedData.messageBytes)
+
+  console.log('data is: ', data)
+
   const fid = data.message.data.frameActionBody.fid
 
   console.log('fid is: ', fid)

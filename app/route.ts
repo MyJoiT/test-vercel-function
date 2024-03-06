@@ -86,6 +86,8 @@ export async function POST(request: NextRequest) {
   const data = await getValidateMessage(body.trustedData.messageBytes)
   const fid = data.message.data.frameActionBody.fid
 
+  console.log('fid is: ', fid)
+
   const { userDataBody } = (await getUsernameByFid(fid)).data
 
   console.log('userDataBody is: ', userDataBody, userDataBody.value)

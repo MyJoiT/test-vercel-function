@@ -89,7 +89,7 @@ export async function POST(request: NextRequest) {
 
   console.log('data is: ', data)
 
-  const fid = data.message.data.frameActionBody.fid
+  const fid = data.message.data.fid
 
   console.log('fid is: ', fid)
 

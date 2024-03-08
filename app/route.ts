@@ -1,6 +1,10 @@
-import { NextRequest } from 'next/server';
+import { NextRequest } from 'next/server'
 
-export const dynamic = 'force-dynamic'; // static by default, unless reading the request
+export const dynamic = 'force-dynamic' // static by default, unless reading the request
+
+// <meta property="fc:frame:button:4" content="Mint" />
+// <meta property="fc:frame:button:4:action" content="mint" />
+// <meta property="fc:frame:button:4:target" content="eip155:7777777:0x060f3edd18c47f59bd23d063bbeb9aa4a8fec6df">
 
 const defaultHtml = (host: string) => `
     <!DOCTYPE>
@@ -17,9 +21,9 @@ const defaultHtml = (host: string) => `
         <meta property="fc:frame:button:3" content="FC Doc" />
         <meta property="fc:frame:button:3:action" content="link" />
         <meta property="fc:frame:button:3:target" content="https://www.farcaster.xyz/" />
-        <meta property="fc:frame:button:4" content="Mint" />
-        <meta property="fc:frame:button:4:action" content="mint" />
-        <meta property="fc:frame:button:4:target" content="eip155:7777777:0x060f3edd18c47f59bd23d063bbeb9aa4a8fec6df">
+        <meta property="fc:frame:button:4" content="Rent Storage" />
+        <meta property="fc:frame:button:4:action" content="tx" />
+        <meta property="fc:frame:button:4:target" content="${ host }/tx" />
       </head>
 
       <body>
@@ -88,9 +92,9 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const body = await new Response(request.body).json();
 
-  console.log('full data is: ', body)
+  console.log('non-tx full data is: ', body)
 
-  console.log('untrustedData is: ', body.untrustedData)
+  console.log('non-tx untrustedData is: ', body.untrustedData)
 
   const originMessage = body.untrustedData.inputText
   let encodeMessage = ''
@@ -100,15 +104,15 @@ export async function POST(request: NextRequest) {
 
   const data = await getValidateMessage(body.trustedData.messageBytes)
 
-  console.log('trustedData is: ', data)
+  console.log('non-tx trustedData is: ', data)
 
   const fid = data.message.data.fid
 
-  console.log('fid is: ', fid)
+  console.log('non-tx fid is: ', fid)
 
   const { userDataBody } = (await getUsernameByFid(fid)).data
 
-  console.log('userDataBody is: ', userDataBody, userDataBody.value)
+  console.log('non-tx userDataBody is: ', userDataBody, userDataBody.value)
 
   let html = null
 

@@ -12,7 +12,8 @@ const defaultHtml = (host: string) => `
       <head>
         <meta property="fc:frame" content="vNext" />
         <meta property="fc:frame:image" content="${ host }/bg.jpg" />
-        <meta property="fc:frame:input:text" content="What is happening?" />
+        <meta property="fc:frame:image:aspect_ratio" content="1.91:1" />
+        <meta property="fc:frame:input:text" content="What is happening?" /> 
         <meta property="fc:frame:post_url" content="${ host }?frame=result" />
         <meta property="fc:frame:button:1" content="View Result" />
         <meta property="fc:frame:button:2" content="Author" />

@@ -111,6 +111,8 @@ export async function POST(request: NextRequest) {
 
   console.log('non-tx fid is: ', fid)
 
+  console.log('non-tx frameActionBody: ', data.message.data.frameActionBody)
+
   const { userDataBody } = (await getUsernameByFid(fid)).data
 
   console.log('non-tx userDataBody is: ', userDataBody, userDataBody.value)
